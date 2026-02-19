@@ -1,0 +1,53 @@
+graph "4_Rail_HPC_Lab" {
+    // Spine Switches
+    "spine01" [function="spine" os="cumulus-vx-5.10.1" cpu="2" memory="4096"]
+    "spine02" [function="spine" os="cumulus-vx-5.10.1" cpu="2" memory="4096"]
+		
+    // Leaf Switches (The Rails)
+    "leaf01" [function="leaf" os="cumulus-vx-5.10.1" cpu="2" memory="4096"]
+    "leaf02" [function="leaf" os="cumulus-vx-5.10.1" cpu="2" memory="4096"]
+    "leaf03" [function="leaf" os="cumulus-vx-5.10.1" cpu="2" memory="4096"]
+    "leaf04" [function="leaf" os="cumulus-vx-5.10.1" cpu="2" memory="4096"]
+
+    // Servers (Optimized for your limits)
+    "srv01" [function="server" os="generic/ubuntu2204" cpu="1" memory="2048"]
+    "srv02" [function="server" os="generic/ubuntu2204" cpu="1" memory="2048"]
+    "srv03" [function="server" os="generic/ubuntu2204" cpu="1" memory="2048"]
+    "srv04" [function="server" os="generic/ubuntu2204" cpu="1" memory="2048"]
+    
+    // Wiring Fat-Tree (spine - leaf)
+    "spine01":"swp1" -- "leaf01":"swp47"
+    "spine01":"swp2" -- "leaf02":"swp48"
+    "spine01":"swp3" -- "leaf03":"swp49"
+    "spine01":"swp4" -- "leaf04":"swp50"
+    "spine02":"swp1" -- "leaf01":"swp47"
+    "spine02":"swp2" -- "leaf02":"swp48"
+    "spine02":"swp3" -- "leaf03":"swp49"
+    "spine02":"swp4" -- "leaf04":"swp50"
+    
+    // Wiring Rail 1
+    "srv01":"eth0" -- "leaf01":"swp1"
+    "srv02":"eth0" -- "leaf01":"swp2"
+    "srv03":"eth0" -- "leaf01":"swp3"
+    "srv04":"eth0" -- "leaf01":"swp4"
+
+
+    // Wiring Rail 2
+    "srv01":"eth1" -- "leaf02":"swp1"
+    "srv02":"eth1" -- "leaf02":"swp2"
+    "srv03":"eth1" -- "leaf02":"swp3"
+    "srv04":"eth1" -- "leaf02":"swp4"
+
+    // Wiring Rail 3
+    "srv01":"eth2" -- "leaf03":"swp1"
+    "srv02":"eth2" -- "leaf03":"swp2"
+    "srv03":"eth2" -- "leaf03":"swp3"
+    "srv04":"eth2" -- "leaf03":"swp4"
+
+
+    // Wiring Rail 4
+    "srv01":"eth3" -- "leaf04":"swp1"
+    "srv02":"eth3" -- "leaf04":"swp2"
+    "srv03":"eth3" -- "leaf04":"swp3"
+    "srv04":"eth3" -- "leaf04":"swp4"
+}
